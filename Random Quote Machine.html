@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Random Quote Machine</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"/>
+  <style>
+    body {
+      background: #f4f4f4;
+    }
+    #quote-box {
+      background: #fff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      max-width: 600px;
+    }
+    #text {
+      font-size: 1.5rem;
+    }
+    #author {
+      font-size: 1rem;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div id="root" class="d-flex justify-content-center align-items-center vh-100"></div>
+
+  <!-- FCC Tests -->
+  <script src="https://cdn.freecodecamp.org/testable-projects-fcc/v1/bundle.js"></script>
+
+  <!-- React 17 -->
+  <script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
+
+  <!-- App Code -->
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const quotes = [
+      { text: "Be yourself; everyone else is already taken.", author: "Oscar Wilde" },
+      { text: "So many books, so little time.", author: "Frank Zappa" },
+      { text: "Be the change that you wish to see in the world.", author: "Mahatma Gandhi" },
+      { text: "If you tell the truth, you don't have to remember anything.", author: "Mark Twain" },
+      { text: "A room without books is like a body without a soul.", author: "Marcus Tullius Cicero" },
+      { text: "Two things are infinite: the universe and human stupidity; and I'm not sure about the universe.", author: "Albert Einstein" }
+    ];
+
+    function App() {
+      const [quote, setQuote] = useState({ text: "", author: "" });
+
+      const getRandomQuote = () => {
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        setQuote(quotes[randomIndex]);
+      };
+
+      useEffect(() => {
+        getRandomQuote(); // load quote on first render
+      }, []);
+
+      return (
+        <div id="quote-box">
+          <div id="text" className="mb-3">"{quote.text}"</div>
+          <div id="author" className="mb-4">- {quote.author}</div>
+
+          <div className="d-flex justify-content-between">
+            <a
+              id="tweet-quote"
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(`"${quote.text}" - ${quote.author}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary"
+            >
+              Tweet
+            </a>
+            <button id="new-quote" onClick={getRandomQuote} className="btn btn-success">
+              New Quote
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</body>
+</html>
